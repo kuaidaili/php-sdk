@@ -9,11 +9,16 @@
 2. 安装Guzzle `php composer.phar require guzzlehttp/guzzle:~6.0`
 ```
 
-* api_stream.php: 使用`stream`流调用api示例
-* api_curl.php: 使用`curl`调用api示例
-	* `curl`不是php原生库, 需要安装才能使用
-		* Ubuntu/Debian系统: `apt-get install php5-curl`
-		* CentOS系统: `yum install php-curl`
+### api_stream.php
+使用`stream`流调用api示例
+
+### api_curl.php
+使用`curl`调用api示例
+```
+`curl`不是php原生库, 需要安装才能使用
+* Ubuntu/Debian系统: `apt-get install php5-curl`
+* CentOS系统: `yum install php-curl`
+```
 
 ## Http代理
 * http_curl.php: 使用`curl`请求Http代理服务器, 请求http和https网页均适用
