@@ -3,16 +3,16 @@
 $page_url = "http://dev.kdlapi.com/testproxy";
 
 //代理服务器
-$proxy = "42.51.12.6:16817";
+$proxy = "host:port";
 
-//用户名和密码(私密代理/独享代理)
-$username   = "radiancehe";
-$password   = "radiance";
+//用户名和密码(隧道代理)
+$username   = "yourusername";
+$password   = "yourpassword";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $page_url);
 
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);  
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 
 //设置代理
@@ -28,7 +28,7 @@ $headers[] = 'User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Tri
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 //自定义cookie
-curl_setopt($ch, CURLOPT_COOKIE,''); 
+curl_setopt($ch, CURLOPT_COOKIE,'');
 
 curl_setopt($ch, CURLOPT_ENCODING, 'gzip'); //使用gzip压缩传输数据让访问更快
 

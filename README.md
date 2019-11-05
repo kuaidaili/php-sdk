@@ -29,6 +29,16 @@ curl不是php原生库, 需要安装才能使用
 * CentOS系统: yum install php-curl
 ```
 
+## 隧道代理
+### tps_curl.php
+使用`curl`请求隧道代理服务器, 请求http和https网页均适用
+```
+curl不是php原生库, 需要安装才能使用
+* Ubuntu/Debian系统: apt-get install php5-curl
+* CentOS系统: yum install php-curl
+```
+
+
 ## 技术支持
 如果您发现代码有任何问题, 请提交`Issue`。
 
