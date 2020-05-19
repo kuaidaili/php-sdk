@@ -1,0 +1,11 @@
+{
+    "name": "kuaidaili/php_sdk",
+    "description": "sdk for php",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {"kdl\\": "src"}
+        },
+    "require": {}
+}
