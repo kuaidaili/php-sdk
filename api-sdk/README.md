@@ -40,6 +40,15 @@ composer require kuaidaili/php_sdk
     # 获取订单到期时间, 返回时间字符串
     var_dump($client -> getExpireTime($args=array("sign_type" => "hmacsha1")));
 
+    # 获取User-Agent, 返回ua数组
+    # 参数说明:(
+    # "num"=>"提取数量"
+    # "dt"=>"系统类型(pc,mobile,pad)",
+    # "browser"=>"浏览器(chrome,ie,firefox,weixin)",
+    # "platform"=>"系统类型(win,mac,linux,ios)"
+    # )
+    var_dump($client->getUA($args = array("num" => "30", "sign_type" => "simple", "dt" => "pc", "browser" => "chrome", "platform" => "win")));
+
     # 设置ip白名单，参数为一个包含"iplist"的关联数组
     # 成功则返回True, 否则false
     # 参数$args可以传或者不传。不传表示将当前外网ip设置到白名单
