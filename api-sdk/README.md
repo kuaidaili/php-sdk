@@ -1,8 +1,8 @@
 # 简介
 快代理php  api-sdk
 
-## 通过conposer安装(推荐)
-您可以通过`npm`将SDK安装到您的项目中：
+## 通过composer安装(推荐)
+您可以通过`composer`将SDK安装到您的项目中：
 ```
 composer require kuaidaili/php_sdk
 ```
