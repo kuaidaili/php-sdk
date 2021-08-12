@@ -22,6 +22,8 @@ class EndPoint
     const GetTps = "tps.kdlapi.com/api/gettps";  # 获取隧道代理IP
     const GetProxyAuthorization = "dev.kdlapi.com/api/getproxyauthorization"; # 获取代理鉴权信息    
     const GetUA = "dev.kdlapi.com/api/getua";    # 获取User Agent
+    const GetAreaCode = "dev.kdlapi.com/api/getareacode";    # 获取指定地区编码
+    const GetAccountBalance = "dev.kdlapi.com/api/getaccountbalance";    # 获取账户余额
 }
 
 ?>

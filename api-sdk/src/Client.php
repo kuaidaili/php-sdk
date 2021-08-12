@@ -450,6 +450,53 @@ class Client
         return $res;
     }
 
+    /*获取指定地区编码
+        *    @param args
+        *           (
+        *               "area": 地区名称
+        *               "sign_type": 认证方式, simple或hmacsha1
+        *           )
+        *    @return 地区编码信息关联列表
+    */
+    public function getAreaCode($args = array()){
+        $endpoint = EndPoint::GetAreaCode;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
+        }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        if (is_array($res)) return $res["data"];
+        return $res;
+    }
+
+    /*获取账户余额
+            *    @param args
+            *           (
+            *               "sign_type": 认证方式, simple或hmacsha1
+            *           )
+            *    @return 账户余额信息关联列表
+        */
+        public function getAccountBalance($args = array()){
+            $endpoint = EndPoint::GetAccountBalance;
+            if (isset($args) && !(is_array($args))) {
+                echo "args should be a array \n";
+                return false;
+            }
+            $params = $this->_get_params($endpoint, $args);
+            $res = $this->_get_base_res(
+                $method = "GET",
+                $endpoint = $endpoint,
+                $query = http_build_query($params)
+            );
+            if (is_array($res)) return $res["data"];
+            return $res;
+        }
+
 
     /*
     *    处理基础请求,
