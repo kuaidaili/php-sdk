@@ -16,7 +16,7 @@ composer require kuaidaili/php_sdk
 <?php
 
     # 包含自动加载文件
-    include './vendor/autoload.php';
+    include '.。/vendor/autoload.php';
     
     use kdl\Auth;
     use kdl\Client;
