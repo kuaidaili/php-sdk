@@ -1,15 +1,6 @@
 # 简介
 快代理php  api-sdk
 
-## 通过composer安装(推荐)
-您可以通过`composer`将SDK安装到您的项目中：
-```
-composer require kuaidaili/php_sdk
-```
-如果您的项目环境尚未安装`composer`，可参考：
-
-* [官方文档](https://docs.phpcomposer.com/00-intro.html)
-
 ## 示例
 以私密代理订单使用为例
 ``` javascript
