@@ -450,13 +450,13 @@ class Client
         return $res;
     }
 
-    /*获取指定地区编码
-        *    @param args
-        *           (
-        *               "area": 地区名称
-        *               "sign_type": 认证方式, simple或hmacsha1
-        *           )
-        *    @return 地区编码信息关联列表
+    /*   获取指定地区编码
+    *    @param args
+    *           (
+    *               "area": 地区名称
+    *               "sign_type": 认证方式, simple或hmacsha1
+    *           )
+    *    @return 地区编码信息关联列表
     */
     public function getAreaCode($args = array()){
         $endpoint = EndPoint::GetAreaCode;
@@ -474,28 +474,147 @@ class Client
         return $res;
     }
 
-    /*获取账户余额
-            *    @param args
-            *           (
-            *               "sign_type": 认证方式, simple或hmacsha1
-            *           )
-            *    @return 账户余额信息关联列表
-        */
-        public function getAccountBalance($args = array()){
-            $endpoint = EndPoint::GetAccountBalance;
-            if (isset($args) && !(is_array($args))) {
-                echo "args should be a array \n";
-                return false;
-            }
-            $params = $this->_get_params($endpoint, $args);
-            $res = $this->_get_base_res(
-                $method = "GET",
-                $endpoint = $endpoint,
-                $query = http_build_query($params)
-            );
-            if (is_array($res)) return $res["data"];
-            return $res;
+    /*  获取账户余额
+    *   @param args
+    *   (
+    *       "sign_type": 认证方式, simple或hmacsha1
+    *   )
+    *   @return 账户余额信息关联列表
+    */
+    public function getAccountBalance($args = array()){
+        $endpoint = EndPoint::GetAccountBalance;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
         }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        if (is_array($res)) return $res["data"];
+        return $res;
+    }
+
+
+    /*  创建订单，自动从账户余额里结算费用
+    *   @param args
+    *   (
+    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "product": 	开通的产品类型
+    *       "pay_type": 付费方式
+    *   )
+    *   @return Json
+    */
+    public function createOrder($args = array()){
+        $endpoint = EndPoint::CreateOrder;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
+        }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        return $res;
+    }
+
+
+    /*  获取订单的详细信息
+    *   @param args
+    *   (
+    *       "sign_type": 认证方式, simple或hmacsha1
+    *   )
+    *   @return Json
+    */
+    public function getOrderInfo($args = array()){
+        $endpoint = EndPoint::GetOrderInfo;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
+        }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        return $res;
+    }
+
+
+    /*  开启/关闭自动续费
+    *   @param args
+    *   (
+    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "autorenew": 开启/关闭自动续费
+    *   )
+    *   @return Json
+    */
+    public function setAutoRenew($args = array()){
+        $endpoint = EndPoint::SetAutoRenew;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
+        }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        return $res;
+    }
+
+
+    /*  关闭指定订单, 此接口只对按量付费(后付费)订单有效
+    *   @param args
+    *   (
+    *       "sign_type": 认证方式, simple或hmacsha1
+    *   )
+    *   @return Json
+    */
+    public function closeOrder($args = array()){
+        $endpoint = EndPoint::CloseOrder;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
+        }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        return $res;
+    }
+
+
+    /*  查询独享代理有哪些城市可供开通。对于IP共享型还可查询到每个城市可开通的IP数量
+    *   @param args
+    *   (
+    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "serie": 独享类型
+    *   )
+    *   @return Json
+    */
+    public function queryKpsCity($args = array()){
+        $endpoint = EndPoint::QueryKpsCity;
+        if (isset($args) && !(is_array($args))) {
+            echo "args should be a array \n";
+            return false;
+        }
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "GET",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        return $res;
+    }
 
 
     /*
