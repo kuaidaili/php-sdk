@@ -2,7 +2,7 @@
 
 namespace kdl\Exception;
 
-class KdlStatusError extends kdlException
+class KdlStatusError extends KdlException
     {
         function __construct($message, $code){
             parent::__construct($message, $code);
