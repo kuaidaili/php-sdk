@@ -10,9 +10,9 @@
 
 
     $orderId = "947449222924633";
-    $apiKey = "atvb6a4981d03pvpqalolea9e0k2pmi6";
+    $secretKey = "atvb6a4981d03pvpqalolea9e0k2pmi6";
 
-    $auth = new Auth($orderId, $apiKey);
+    $auth = new Auth($orderId, $secretKey);
     $client = new Client($auth);
 
     # 注意：所有函数参数$args都是关联数组形式

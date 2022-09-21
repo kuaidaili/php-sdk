@@ -7,13 +7,12 @@ use kdl\Exception\KdlException;
 use kdl\Exception\KdlStatusError;
 use kdl\Exception\KdlNameError;
 use kdl\Exception\KdlTypeError;
-use kdl\EndPoint;
-use kdl\OpsOrderLevel;
 use kdl\OpsOrderLevel;
 
 
-class Client
-{
+class Client {
+
+    public $secretPath = './.secret';
 
     function __construct($auth)
     {
@@ -22,11 +21,12 @@ class Client
         $this->auth = $auth;
     }
 
+
     /*
     *   获取订单到期时间, 强制签名验证
     *    @param args
     *    (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *    )
     *    @return 订单过期时间字符串
     */
@@ -34,7 +34,7 @@ class Client
     {
 
         $endpoint = EndPoint::GetOrderExpireTime;
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
         $params = $this->_get_params($endpoint, $args);
         $res = $this->_get_base_res(
             $method = "GET",
@@ -54,7 +54,7 @@ class Client
     *   @params args
     *           (
     *               "plain_text": 是否明文返回用户名密码, 1表示是, 0表示否
-    *               "sign_type": 签名验证方式。目前支持simple和hmacsha1
+    *               "sign_type": 签名验证方式。目前支持token和hmacsha1
     *           )
     *   @return 返回信息的数组
     */
@@ -62,7 +62,7 @@ class Client
     {
 
         # 设定默认参数值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
         $args["plaintext"] = isset($args["plaintext"]) ? $args["plaintext"] : 0;
 
         $endpoint = EndPoint::GetProxyAuthorization;
@@ -80,10 +80,10 @@ class Client
 
     /*
     *   仅支持支持换IP周期>=1分钟的隧道代理订单
-    *   获取隧道当前的IP，默认“simple”鉴权
+    *   获取隧道当前的IP，默认“token”鉴权
     *   @params args
     *           (
-    *               "sign_type": 签名验证方式。目前支持simple和hmacsha1
+    *               "sign_type": 签名验证方式。目前支持token和hmacsha1
     *           )
     *   @return:返回ip地址。
     */
@@ -91,7 +91,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         $endpoint = EndPoint::TpsCurrentIp;
         $params = $this->_get_params($endpoint, $args);
@@ -108,7 +108,7 @@ class Client
     *   仅支持支持换IP周期>=1分钟的隧道代理订单
     *   @params args
     *           (
-    *               "sign_type": 签名验证方式。目前支持simple和hmacsha1
+    *               "sign_type": 签名验证方式。目前支持token和hmacsha1
     *           )
     *   @return: 返回新的IP地址
     */
@@ -116,7 +116,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         $endpoint = EndPoint::ChangeTpsIp;
         $params = $this->_get_params($endpoint, $args);
@@ -130,10 +130,10 @@ class Client
 
 
     /*
-    *    获取隧道代理IP, 默认"simple"鉴权 https://www.kuaidaili.com/doc/api/gettps/
+    *    获取隧道代理IP, 默认"token"鉴权 https://www.kuaidaili.com/doc/api/gettps/
     *    @params args
     *    (
-    *            "sign_type": 签名验证方式。目前支持simple和hmacsha1
+    *            "sign_type": 签名验证方式。目前支持token和hmacsha1
     *            "num" : 提取数量
     *            "kwargs": 其他关键字参数，具体有那些参数请查看帮助中心api说明
     *    )
@@ -143,7 +143,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
         if (!isset($args["num"])) throw new KdlNameError("miss param: num");
         if (!ctype_digit(strval($args["num"]))) throw new KdlTypeError("num should be a integer or a integer string");
         $endpoint = EndPoint::GetTps;
@@ -162,7 +162,7 @@ class Client
     *    获取订单的ip白名单, 强制签名验证
     *    @param args
     *    (
-    *          "sign_type": 认证方式, simple或hmacsha1
+    *          "sign_type": 认证方式, token或hmacsha1
     *    )
     *    @return ip白名单列表
     */
@@ -170,7 +170,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         $endpoint = EndPoint::GetIpWhitelist;
         $params = $this->_get_params($endpoint, $args);
@@ -188,10 +188,10 @@ class Client
 
 
     /*
-    *    获取私密代理, 默认"simple"鉴权
+    *    获取私密代理, 默认"token"鉴权
     *    @param args
     *    (
-    *        "sign_type": 认证方式, simple或hmacsha1
+    *        "sign_type": 认证方式, token或hmacsha1
     *        "num": 提取数量, int类型
     *        "kwargs": 其他关键字参数，具体有那些参数请查看帮助中心api说明
     *    )
@@ -201,7 +201,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         if (!isset($args["num"])) throw new KdlNameError("miss param: num");
         if (!ctype_digit(strval($args["num"]))) throw new KdlTypeError("num should be a integer or a integer string");
@@ -221,7 +221,7 @@ class Client
     *    @param args
     *    (
     *        "proxy": 私密代理列表的一维数组, 如 array('113.120.61.166:22989','122.4.44.132:21808')
-    *        "sign_type": 认证方式, simple或hmacsha1
+    *        "sign_type": 认证方式, token或hmacsha1
     *    )
     *    @return 返回data部分, 格式为由'proxy: 1/0'组成的数组
     */
@@ -229,7 +229,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         if (!isset($args["proxy"])) throw new KdlNameError("miss param: proxy");
         if (!is_array($args["proxy"])) throw new KdlTypeError("args['proxy'] should be a array");
@@ -251,13 +251,13 @@ class Client
             :param args
             (
                 "proxy": 私密代理列表的一维数组, 如 array('113.120.61.166:22989','122.4.44.132:21808')
-                "sign_type": 认证方式, simple或hmacsha1
+                "sign_type": 认证方式, token或hmacsha1
             )
             :return: 返回data部分, 格式为由'proxy: seconds(剩余秒数)'组成的关联数组
         */
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         if (!isset($args["proxy"])) throw new KdlNameError("miss param: proxy");
         if (!is_array($args["proxy"])) throw new KdlTypeError("args['proxy'] should be a array");
@@ -279,7 +279,7 @@ class Client
     *    此接口只对按量付费订单和包年包月的集中提取型订单有效
     *    @params args
     *    (
-    *        "sign_type": 认证方式, simple或hmacsha1
+    *        "sign_type": 认证方式, token或hmacsha1
     *    )
     *    @return 返回data中的balance字段, int类型
     */
@@ -287,7 +287,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         $endpoint = EndPoint::GetIpBalance;
         $params = $this->_get_params($endpoint, $args);
@@ -302,10 +302,10 @@ class Client
 
 
     /*
-    *    获取独享代理, 默认"simple"鉴权
+    *    获取独享代理, 默认"token"鉴权
     *    @params args
     *    (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *        "num": 提取数量
     *         其他关键字参数，具体有那些参数请查看帮助中心api说明
     *    )
@@ -315,7 +315,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         if (!isset($args["num"])) throw new KdlNameError("miss param: num");
         if (!ctype_digit(strval($args["num"]))) throw new KdlTypeError("num should be a integer or a integer string");
@@ -335,7 +335,7 @@ class Client
     *    获取开放代理, 默认不需要鉴权
     *    @params args
     *    (
-    *        "sign_type": 认证方式, simple或hmacsha1
+    *        "sign_type": 认证方式, token或hmacsha1
     *        "order_level": 开放代理订单类型
     *        "num": 提取数量
     *        其他关键字参数，具体有那些参数请查看帮助中心api说明
@@ -346,7 +346,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         if (!isset($args["num"])) throw new KdlNameError("miss param: num");
         if (!ctype_digit(strval($args["num"]))) throw new KdlTypeError("num should be a integer or a integer string");
@@ -370,7 +370,7 @@ class Client
     *    检测开放代理有效性, 强制签名验证
     *    @params args
     *    (
-    *        "sign_type": 认证方式, simple或hmacsha1
+    *        "sign_type": 认证方式, token或hmacsha1
     *        "proxy": 私密代理列表的一维数组, 如 array('113.120.61.166:22989','122.4.44.132:21808')
     *    )
     *    @return 返回data部分, 格式为由'proxy: True/False'组成的列表
@@ -379,7 +379,7 @@ class Client
     {
 
         # 设置默认值
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
 
         if (!isset($args["proxy"])) throw new KdlNameError("miss param: proxy");
         if (!is_array($args["proxy"])) throw new KdlTypeError("args['proxy'] should be a array");
@@ -400,7 +400,7 @@ class Client
     *    @param args
     *           (
     *               "iplist": 一维数组, 如('23.5.3.2', '35.2.1.3')
-    *               "sign_type": 认证方式, simple或hmacsha1
+    *               "sign_type": 认证方式, token或hmacsha1
     *           )
     *    @return 成功则返回True, 否则抛出异常
     */
@@ -414,7 +414,7 @@ class Client
         }
         #if( !isset($args["iplist"]) ) throw new KdlNameError($message="miss param: iplist", $code=-1);
         if (isset($args["iplist"])) $args["iplist"] = implode(",", $args["iplist"]);
-        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "simple";
+        $args["sign_type"] = isset($args["sign_type"]) ? $args["sign_type"] : "token";
         # iplist要求为字符串，多个以逗号分隔
 
         $params = $this->_get_params($endpoint, $args);
@@ -430,7 +430,7 @@ class Client
     *    @param args
     *           (
     *               "num": 提取数量
-    *               "sign_type": 认证方式, simple或hmacsha1
+    *               "sign_type": 认证方式, token或hmacsha1
     *           )
     *    @return User-Agent列表
     */
@@ -454,7 +454,7 @@ class Client
     *    @param args
     *           (
     *               "area": 地区名称
-    *               "sign_type": 认证方式, simple或hmacsha1
+    *               "sign_type": 认证方式, token或hmacsha1
     *           )
     *    @return 地区编码信息关联列表
     */
@@ -477,7 +477,7 @@ class Client
     /*  获取账户余额
     *   @param args
     *   (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *   )
     *   @return 账户余额信息关联列表
     */
@@ -501,7 +501,7 @@ class Client
     /*  创建订单，自动从账户余额里结算费用
     *   @param args
     *   (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *       "product": 	开通的产品类型
     *       "pay_type": 付费方式
     *   )
@@ -526,7 +526,7 @@ class Client
     /*  获取订单的详细信息
     *   @param args
     *   (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *   )
     *   @return Json
     */
@@ -549,7 +549,7 @@ class Client
     /*  开启/关闭自动续费
     *   @param args
     *   (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *       "autorenew": 开启/关闭自动续费
     *   )
     *   @return Json
@@ -573,7 +573,7 @@ class Client
     /*  关闭指定订单, 此接口只对按量付费(后付费)订单有效
     *   @param args
     *   (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *   )
     *   @return Json
     */
@@ -596,7 +596,7 @@ class Client
     /*  查询独享代理有哪些城市可供开通。对于IP共享型还可查询到每个城市可开通的IP数量
     *   @param args
     *   (
-    *       "sign_type": 认证方式, simple或hmacsha1
+    *       "sign_type": 认证方式, token或hmacsha1
     *       "serie": 独享类型
     *   )
     *   @return Json
@@ -614,6 +614,47 @@ class Client
             $query = http_build_query($params)
         );
         return $res;
+    }
+
+    function _writeSecretToken () {
+        $file = fopen($this->secretPath, "w");
+        $token_list = $this->_getSecretToken();
+        fwrite($file, implode("|", $token_list));
+        fclose($file);
+        return $token_list;
+    }
+
+    function _readSecretToken (){
+        $file = fopen($this->secretPath, "r");
+        $token_list = explode("|", fread($file, 1024));
+        fclose($file);
+        if ($token_list[2] + $token_list[1] - 3*60 < time()) {  // 过期前3分钟更新token
+            $token_list = $this->_writeSecretToken();
+        }
+        return $token_list[0];
+    }
+
+    function _getSecretToken(){
+        $endpoint = EndPoint::GetSecretToken;
+        $args = array("sign_type" => "simple", "secret_key" => $this->auth->secretKey);
+        $params = $this->_get_params($endpoint, $args);
+        $res = $this->_get_base_res(
+            $method = "POST",
+            $endpoint = $endpoint,
+            $query = http_build_query($params)
+        );
+        return array($res["data"]["secret_token"], $res["data"]["expire"], time());
+    }
+
+    public function getSecretToken(){
+        try {
+            if (file_exists($this->secretPath)) $token = $this->_readSecretToken();
+            else $token = $this->_writeSecretToken()[0];
+            return $token;
+        }
+        catch (KdlException $e) {
+            echo $e->getMessage();
+        }
     }
 
 
@@ -647,7 +688,7 @@ class Client
         );
 
         if ($method == "GET") {
-            $url = "http://$endpoint?$query";
+            $url = "https://$endpoint?$query";
             // echo $url, "\n";
             #$url = "https://httpbin.org/get?$query";
             $ch = curl_init($url);
@@ -656,7 +697,7 @@ class Client
             $r = curl_exec($ch);
 
         } elseif ($method == "POST") {
-            $url = "http://$endpoint";
+            $url = "https://$endpoint";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $options[CURLOPT_POST] = 1;
@@ -672,6 +713,7 @@ class Client
 
         # json_decode函数失败将返回null
         $res = json_decode($r, true);
+        var_dump($res);
         # 如果不是Json数据，直接返回
         if ($res === NULL) {
             return $r;   // 还需要测试
@@ -704,12 +746,12 @@ class Client
     private function _get_params($endpoint, $args = array())
     {
 
-        # 如果没有给orderid和apikey或者为空,则 抛出异常
-        if (!($this->auth->orderId && $this->auth->apiKey)) {
-            throw new KdlNameError("wrong orderId or apiKey");
+        # 如果没有给secretId和secretKey或者为空,则 抛出异常
+        if (!($this->auth->secretId && $this->auth->secretKey)) {
+            throw new KdlNameError("wrong secretId or secretKey");
         }
 
-        $params["orderid"] = $this->auth->orderId;
+        $params["secret_id"] = $this->auth->secretId;
 
         # 参数args是必须的
         if (isset($args) && is_array($args)) {
@@ -726,7 +768,10 @@ class Client
             case "":
                 break;
             case "simple":
-                $params['signature'] = $this->auth->apiKey;
+                $params['signature'] = $this->auth->secretKey;
+                break;
+            case "token":
+                $params['signature'] = $this->getSecretToken();
                 break;
             case "hmacsha1":
                 $params['timestamp'] = (int)time();
@@ -741,6 +786,7 @@ class Client
             default:
                 throw new KdlNameError("unknown sign_type" . $params["sign_type"]);
         }
+        var_dump($params);
         return $params;
 
     }

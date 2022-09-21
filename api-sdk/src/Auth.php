@@ -4,12 +4,12 @@ namespace kdl;
 
 class Auth
 {
-    public $orderId;
-    public $apiKey;
+    public $secretId;
+    public $secretKey;
 
-    function __construct($orderId, $apiKey){
-        $this -> orderId = $orderId;
-        $this -> apiKey = $apiKey;
+    function __construct($secretId, $secretKey){
+        $this -> secretId = $secretId;
+        $this -> secretKey = $secretKey;
     }
 
 

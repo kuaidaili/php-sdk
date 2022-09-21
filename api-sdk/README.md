@@ -15,16 +15,16 @@
     use kdl\Exception;
 
 
-    $orderId = "";
-    $apiKey = "";
+    $secretId = "";
+    $secretKey = "";
 
-    $auth = new Auth($orderId, $apiKey);
+    $auth = new Auth($secretId, $secretKey);
     $client = new Client($auth);
 
     # 注意：所有函数参数$args都是关联数组形式
     # 如
     # $args = array(
-        # "sign_type" => "hmacsha1" // 认证方式, simple或hmacsha1 默认为simple
+        # "sign_type" => "hmacsha1" // 认证方式, token或hmacsha1 默认为token
         # ... 
     #)
 
@@ -38,7 +38,7 @@
     # "browser"=>"浏览器(chrome,ie,firefox,weixin)",
     # "platform"=>"系统类型(win,mac,linux,ios)"
     # )
-    var_dump($client->getUA($args = array("num" => "30", "sign_type" => "simple", "dt" => "pc", "browser" => "chrome", "platform" => "win")));
+    var_dump($client->getUA($args = array("num" => "30", "sign_type" => "token", "dt" => "pc", "browser" => "chrome", "platform" => "win")));
 
     # 设置ip白名单，参数为一个包含"iplist"的关联数组
     # 成功则返回True, 否则false
@@ -57,7 +57,7 @@
     # 返回值为一个包含ip的数组
     $ips = $client -> getDps($args=array(
             "num" => 2, // 提取数量
-            "sign_type" => 'simple', 
+            "sign_type" => 'token', 
             "format" => 'json' // 如果format不指定为json, 将会以为原始内容返回。而不是以数组形式返回
             )
     );
@@ -92,7 +92,7 @@
     var_dump($client -> getProxyAuthorization(
             $args=array(
                 "plaintext"=>1,
-                "sign_type"=>"simple"
+                "sign_type"=>"token"
                 )
         ));
 ```

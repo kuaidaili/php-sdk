@@ -29,6 +29,8 @@ class EndPoint
     const SetAutoRenew = "dev.kdlapi.com/api/setautorenew";  # 开启/关闭自动续费
     const CloseOrder = "dev.kdlapi.com/api/closeorder";  # 关闭订单
     const QueryKpsCity = "dev.kdlapi.com/api/querykpscity";  # 查询独享代理城市信息
+
+    const GetSecretToken = "auth.kdlapi.com/api/get_secret_token";  # 获取secret
 }
 
 ?>
