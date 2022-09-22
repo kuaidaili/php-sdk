@@ -10,10 +10,10 @@ use kdl\EndPoint;
 //  use kdl\Exception;
 
 
- $orderId = "";
+ $secretId = "";
  $secretKey = "";
 
- $auth = new Auth($orderId, $secretKey);
+ $auth = new Auth($secretId, $secretKey);
  $client = new Client($auth);
 
 //  var_dump($client -> getSecretToken());

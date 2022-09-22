@@ -47,7 +47,7 @@ class Auth
     */
     public function signStr($raw_str, $method="sha1"){
 
-        $hmac_str = hash_hmac($method, $raw_str, $this->apiKey, true);
+        $hmac_str = hash_hmac($method, $raw_str, $this->secretKey, true);
         $sign_str = base64_encode($hmac_str);
 
         return $sign_str;

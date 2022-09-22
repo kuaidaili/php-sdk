@@ -9,10 +9,10 @@
 
 
 
-    $orderId = "";
+    $secretId = "";
     $secretKey = "";
 
-    $auth = new Auth($orderId, $secretKey);
+    $auth = new Auth($secretId, $secretKey);
     $client = new Client($auth);
 
     # 注意：所有函数参数$args都是关联数组形式
